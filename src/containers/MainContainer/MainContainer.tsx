@@ -21,21 +21,28 @@ const MainContainer = () => {
         
         const oldTimes = [...functionTimes];
         const oldInputLengths = [...inputLengths];
-
-        oldTimes.push(getLengthOfArgument(tsSourceFile));
-        setFunctionTimes(oldTimes);
-
-        oldInputLengths.push(measureTime(codeSnippet));
-        setInputLengths(oldInputLengths);
-        console.log(oldInputLengths, 'MainContainer.tsx', 'line: ', '30');
-        console.log(oldTimes, 'MainContainer.tsx', 'line: ', '31');
+        
+        try {
+            const argumentLength = getLengthOfArgument(tsSourceFile);
+            oldTimes.push(argumentLength);
+            setFunctionTimes(oldTimes);
+        } catch (error) {
+            console.log(error);
+        }
+        try {
+            const time = measureTime(codeSnippet);
+            oldInputLengths.push(time);
+            setInputLengths(oldInputLengths);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
         <div className="main-container-container">
             <Code value={codeSnippet} onChange={setCodeSnippet} />
             <Controls onCodeSubmit={codeSubmitHandler} />
-            <Figure />
+            <Figure data={{times: functionTimes, inputLengths}}/>
         </div>
     );
 };

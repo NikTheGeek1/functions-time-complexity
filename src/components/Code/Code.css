@@ -1,3 +1,9 @@
+.code-container {
+    background-color: var(--color-code);
+    height: 100%;
+}
+
 .code-mirror {
     text-align: left;
+    height: 100%;
 }
