@@ -2,7 +2,9 @@
   --color-code: #263238;
 }
 
-
+html {
+  background-color: var(--color-code);
+}
 .App {
   height: 100vh;
 }

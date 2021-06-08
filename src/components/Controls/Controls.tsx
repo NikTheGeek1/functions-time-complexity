@@ -1,10 +1,11 @@
 import './Controls.css';
+import Button from '../Button/Button';
 
 const Controls = ({onCodeSubmit}: {onCodeSubmit: () => void}) => {
 
     return (
         <div className="controls-container">
-            <button className="btn submit-code-btn" onClick={onCodeSubmit}>Submit</button>
+            <Button title="Execute" onClick={onCodeSubmit} />
         </div>
     );
 };

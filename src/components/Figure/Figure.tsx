@@ -14,7 +14,7 @@ const Figure = ({ data }: { data: PlotData }) => {
                         y: data.inputLengths,
                         type: 'scatter',
                         mode: 'lines+markers',
-                        marker: { color: '#FBFFF1' },
+                        marker: { color: '#e5989b' },
                     }
                 ]}
                 layout={
@@ -22,31 +22,29 @@ const Figure = ({ data }: { data: PlotData }) => {
                         width:window.innerWidth, height:window.innerHeight/2.2, margin: {t:30},
                         paper_bgcolor: '#263238', plot_bgcolor: '#263238',
                         xaxis: {
-                            gridcolor: '#636363',
+                            gridcolor: '#263238',
                             linecolor: 'white',
-                            showline: false,
-                            zerolinecolor: 'white',
+                            zerolinecolor: '#263238',
                             // tickcolor: 'white',
                             tickfont: {
                                 color: 'white'
                             },
                             title: 'Input length',
                             titlefont: {
-                                color: 'white'
+                                color: '#e5989b'
                             }
                         },
                         yaxis: {
-                            gridcolor: '#636363',
+                            gridcolor: '#263238',
                             linecolor: 'white',
-                            showline: false,
-                            zerolinecolor: 'white',
+                            zerolinecolor: '#263238',
                             // tickcolor: 'white',
                             tickfont: {
                                 color: 'white'
                             },
                             title: 'Time',
                             titlefont: {
-                                color: 'white'
+                                color: '#e5989b'
                             }
                         },
             

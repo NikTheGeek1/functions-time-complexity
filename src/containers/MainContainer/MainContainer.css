@@ -3,3 +3,26 @@
     display: grid;
     grid-template-rows: 1fr 50px 2fr;
 }
+
+.modal-centered-container {
+    font-size: 14px;
+    grid-area: content;
+    justify-self: center;
+    align-self: center;
+    display: grid;
+}
+
+.error-message {
+    color: #e5989b;
+}
+
+.redraw-message,
+.something-is-wrong-msg {
+    text-align: center;
+    font-size: 25px;
+}
+
+.error-message-code-outer-container {
+    border: 1px solid #e5989b;
+    margin-bottom: 20px;
+}

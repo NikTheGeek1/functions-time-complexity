@@ -6,7 +6,7 @@ require('codemirror/mode/javascript/javascript.js');
 
 
 
-const Code = ({value, onChange}:{value: string, onChange: (value: string) => void}) => {
+const Code = ({value, onChange}:{value: string, onChange?: (value: string) => void}) => {
     return (
         <div className="code-container">
             <CodeMirror
@@ -18,7 +18,7 @@ const Code = ({value, onChange}:{value: string, onChange: (value: string) => voi
                     lineNumbers: true
                 }}
                 onBeforeChange={(editor, data, v) => {
-                    onChange(v);
+                    onChange && onChange(v);
                 }}
             />
         </div>
