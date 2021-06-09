@@ -9,9 +9,12 @@ import measureTime from '../../utils/measure-time';
 import Button from '../../components/Button/Button';
 import initialFunctionString from '../../constants/initial-function';
 import FullScreenModal from '../../components/FullScreenModal/FullScreenModal';
+import fitComplexities, { FittedDataType } from '../../utils/fit-complexities';
 
 const MainContainer = () => {
     const [codeSnippet, setCodeSnippet] = useState<string>(initialFunctionString);
+    const [showFittedComplexities, setShowFittedComplexities] = useState<boolean>(false);
+    const [fittedData, setFittedData] = useState<FittedDataType>();
     const [inputLengths, setInputLengths] = useState<number[]>([]);
     const [functionTimes, setFunctionTimes] = useState<number[]>([]);
     const [tsSourceFile, setTsSourceFile] = useState<SourceFile>(ts.createSourceFile(
@@ -22,22 +25,30 @@ const MainContainer = () => {
     const [showShouldRedrawModal, setShowShouldRedrawModal] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<undefined | string>();
 
+    const toggleFittedComplexities = () => {
+        if (!showFittedComplexities) {
+            const fittedDataObj = fitComplexities(inputLengths, functionTimes);
+            setFittedData(fittedDataObj);
+        }
+        setShowFittedComplexities(oldState => !oldState);
+    };
+
     const drawPlot = (redraw: boolean, tsSourceFileArg?: SourceFile) => {
         const oldTimes = redraw ? [] : [...functionTimes];
         const oldInputLengths = redraw ? [] : [...inputLengths];
 
         try {
             const argumentLength = getLengthOfArgument(tsSourceFileArg || tsSourceFile);
-            oldTimes.push(argumentLength);
-            setFunctionTimes(oldTimes);
+            oldInputLengths.push(argumentLength);
+            setInputLengths(oldInputLengths);
         } catch (error) {
             setErrorMessage(error.message);
             console.log(error);
         }
         try {
             const time = measureTime(codeSnippet);
-            oldInputLengths.push(time);
-            setInputLengths(oldInputLengths);
+            oldTimes.push(time);
+            setFunctionTimes(oldTimes);
         } catch (error) {
             setErrorMessage(error.message);
             console.log(error);
@@ -46,6 +57,7 @@ const MainContainer = () => {
 
     const redrawModalAnswer = (answer: boolean) => {
         drawPlot(answer);
+        setShowFittedComplexities(false);
         setShowShouldRedrawModal(false);
     };
 
@@ -81,9 +93,9 @@ const MainContainer = () => {
             {errorMessage &&
                 <FullScreenModal>
                     <div className="modal-centered-container">
-                        <p className="something-is-wrong-msg">Something is wrong!<br/>
-                        This has to do either with: <p className="error-message">{errorMessage[0].toUpperCase() + errorMessage.slice(1)}</p> 
-                        or with the format of the function.<br/>
+                        <p className="something-is-wrong-msg">Something is wrong!<br />
+                        This has to do either with: <p className="error-message">{errorMessage[0].toUpperCase() + errorMessage.slice(1)}</p>
+                        or with the format of the function.<br />
                         Functions should have the following format:</p>
                         <div className="error-message-code-outer-container">
                             <Code value={initialFunctionString} />
@@ -94,8 +106,8 @@ const MainContainer = () => {
             }
 
             <Code value={codeSnippet} onChange={setCodeSnippet} />
-            <Controls onCodeSubmit={codeSubmitHandler} />
-            <Figure data={{ times: functionTimes, inputLengths }} />
+            <Controls onCodeSubmit={codeSubmitHandler} onFitComplexities={toggleFittedComplexities} />
+            <Figure data={{ times: functionTimes, inputLengths }} fittedData={fittedData} showComplexities={showFittedComplexities}/>
         </div>
     );
 };
