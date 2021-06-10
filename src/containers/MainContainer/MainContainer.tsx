@@ -107,7 +107,7 @@ const MainContainer = () => {
 
             <Code value={codeSnippet} onChange={setCodeSnippet} />
             <Controls onCodeSubmit={codeSubmitHandler} onFitComplexities={toggleFittedComplexities} />
-            <Figure data={{ times: functionTimes, inputLengths }} fittedData={fittedData} showComplexities={showFittedComplexities}/>
+            <Figure data={{ times: functionTimes, inputLengths }} />
         </div>
     );
 };
